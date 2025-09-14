@@ -1,0 +1,36 @@
+---
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import "../styles/global.css";
+---
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lance Kluge's Portfolio</title>
+  </head>
+<Header />
+
+<section id="resume" class="py-20 flex justify-center bg-gray-100 dark:bg-gray-900">
+  <div class="max-w-5xl w-full bg-white dark:bg-gray-800 rounded-xl shadow-lg p-10 text-center space-y-6">
+    
+    <h2 class="text-3xl font-bold text-gray-900 dark:text-white">My Resume</h2>
+    
+    <iframe
+  src="/Resume_LK.pdf"
+  class="w-full rounded-lg shadow-md border border-gray-300 dark:border-gray-700"
+  style="height: calc(100vh - 64px - 64px);"
+></iframe>
+
+    <a 
+      href="/Resume_LK.pdf" 
+      target="_blank" 
+      class="inline-block mt-4 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all"
+    >
+      Download Resume
+    </a>
+
+  </div>
+</section>
+
+<Footer />
+</html>
