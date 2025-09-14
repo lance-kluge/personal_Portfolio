@@ -24,7 +24,7 @@ import "../styles/global.css";
 	</body>
 	<!--about me section -->
       </section>
-		<section id="about" class="py-16 bg-gray-50 dark:bg-gray-900">
+		<section id="about" class="py-16 bg-gray-100 dark:bg-gray-900">
 			<div class="max-w-4xl mx-auto bg-gray-800 rounded-xl shadow-lg p-8 sm:p-12 text-gray-100">
 				<h3 class="text-3xl font-bold mb-6 text-center">About Me</h3>
 				<p class="text-lg leading-relaxed space-y-4">
@@ -40,50 +40,55 @@ import "../styles/global.css";
 		</section>
 
 
-      <section id="projects" class="py-16">
-		<h3 class="text-3xl font-bold mb-6">Projects</h3>
-		<div class="grid md:grid-cols-2 gap-6">
+      <section id="projects" class="py-16 flex justify-center">
+  		<div class="max-w-5xl w-full bg-gray-700 rounded-2xl shadow p-10 text-center">
+    		<h3 class="text-3xl font-bold mb-6 text-white">Projects</h3>
+			<div class="grid md:grid-cols-2 gap-6">
 
 			<a href="/projects/nfl-model" 
-			class="group block p-6 border rounded-lg shadow hover:shadow-lg hover:bg-gray-300 transition-all">
+			class="group block p-6 rounded-lg shadow hover:shadow-lg hover:bg-gray-300 transition-all 
+	       bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
 			<h4 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors">
 				NFL Game Predictive Model
 			</h4>
-			<p class="text-base text-gray-400 group-hover:text-black transition-colors">
+			<p class="text-base text-gray-500 group-hover:text-black transition-colors">
 				A predictive analytics model built with XGBoost, Pandas, and scikit-learn to forecast NFL game outcomes from pre-game team statistics, achieving 65.5% accuracy on unseen seasons.
 			</p>
 			</a>
 
 			<a href="/projects/ski-resort" 
-			class="group block p-6 border rounded-lg shadow hover:shadow-lg hover:bg-gray-300 transition-all " >
-			<h4 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors">
+			class="group block p-6 rounded-lg shadow hover:shadow-lg hover:bg-gray-300 transition-all 
+	       bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">			<h4 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors">
 				Ski Resort Review Web Application
 			</h4>
-			<p class="text-base text-gray-400 group-hover:text-black transition-colors">
+			<p class="text-base text-gray-500 group-hover:text-black transition-colors">
 				A full-stack web application that delivers real-time, crowd-sourced updates on mountain conditions and terrain quality, built collaboratively from the ground up.
 			</p>
 			</a>
 
 			<a href="/projects/project-two" 
-			class="group block p-6 border rounded-lg shadow hover:shadow-lg hover:bg-gray-300 transition-all">
+			class="group block p-6 rounded-lg shadow hover:shadow-lg hover:bg-gray-300 transition-all 
+	       bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
 			<h4 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors">
 				Mini Git
 			</h4>
-			<p class="text-base text-gray-400 group-hover:text-black transition-colors">
-				Another project description here.
+			<p class="text-base text-gray-500 group-hover:text-black transition-colors">
+				A collaborative C++ project implementing file version control functionality, including an initial design proposal, core application, and a test suite for edge cases.
 			</p>
 			</a>
 
 			<a href="/projects/project-three" 
-			class="group block p-6 border rounded-lg shadow hover:shadow-lg hover:bg-gray-300 transition-all">
+			class="group block p-6 rounded-lg shadow hover:shadow-lg hover:bg-gray-300 transition-all 
+	       bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
 			<h4 class="text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors">
 				Elevator Simulation and Analysis
 			</h4>
-			<p class="text-base text-gray-400 group-hover:text-black transition-colors">
-				Another project description here.
+			<p class="text-base text-gray-500 group-hover:text-black transition-colors">
+				A Java-based elevator system simulation developed collaboratively, featuring iterative design refinement and data-driven analysis to recommend optimal configurations to a fictional client.
 			</p>
 			</a>
 
+		</div>
 		</div>
 	</section>
 
