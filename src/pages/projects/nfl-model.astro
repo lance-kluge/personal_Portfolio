@@ -1,0 +1,103 @@
+---
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import "../../styles/global.css";
+---
+
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NFL Game Predictive Model</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <!-- Header Component -->
+    <Header />
+
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center">
+      <div class="max-w-4xl mx-auto px-6">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">
+          NFL Game Predictive Model
+        </h1>
+        <p class="text-lg sm:text-xl text-blue-100">
+          A machine learning model that forecasts NFL game outcomes using pre-game team statistics.
+        </p>
+      </div>
+    </section>
+
+    <!--rest of content section -->
+   <section class="py-16 max-w-5xl mx-auto space-y-12">
+
+  <!--overview section -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-10 text-center space-y-4">
+    <h2 class="text-2xl font-bold mb-2">Overview</h2>
+    <p class="text-gray-700 dark:text-gray-300">
+      This is a machine learning model built using <strong>XGBoost</strong>, <strong>Pandas</strong>, and <strong>scikit-learn</strong> in Python.
+      It predicts NFL game winners based on pre-game team statistics with a final accuracy of ~65.5% on unseen seasons.
+    </p>
+    <p class="text-gray-700 dark:text-gray-300">
+      Data is sourced from <a href="https://www.kaggle.com/datasets/cviaxmiwnptr/nfl-team-stats-20022019-espn" target = "_blank" class="text-teal-500 hover:underline">Kaggle NFL Team Stats (2002–2024)</a> and includes points, yards, turnovers, sacks, first downs, and more.
+      All stats were processed into <strong>rolling stats</strong> to only include information that would have been available before each game.
+    </p>
+  </div>
+
+  <!--rolling stats -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-10 text-center space-y-4">
+    <h2 class="text-2xl font-bold mb-2">Rolling Stats</h2>
+    <p class="text-gray-700 dark:text-gray-300">
+      Rolling stats are averages of a team’s performance up to the week prior to the game. This ensures predictions only use information available before the game:
+    </p>
+    <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 inline-block text-left">
+      <li>Week 2 game → averages from Week 1</li>
+      <li>Week 10 game → averages from Weeks 1–9</li>
+    </ul>
+    <p class="text-gray-700 dark:text-gray-300 mt-2">
+      Rolling stats were created in the <code>rollingStatsCreation</code> notebook by assigning game IDs, splitting home/away teams, and applying rolling calculations.
+    </p>
+  </div>
+
+  <!-- train and test -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-10 text-center space-y-4">
+    <h2 class="text-2xl font-bold mb-2">Training vs Testing Data</h2>
+    <p class="text-gray-700 dark:text-gray-300">
+      The model was trained on seasons 2005–2022 and tested on 2023–2024 seasons to ensure it predicts games it has never seen. 
+      The 2005 cutoff was chosen because the game of football does change over time. 
+      This past decade or two has started to let passing attacks shine when compared to (relatively) more run focused offenses. 
+      The 2005 cutoff was chosen fairly arbitrarily but that was when the oldest QBs still in the league were drafted Aaron Rodgers so it felt fair.
+    </p>
+  </div>
+
+  <!-- model iters -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-10 text-center space-y-4">
+    <h2 class="text-2xl font-bold mb-2">Model Development</h2>
+    <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 inline-block text-left">
+      <li><strong>Model 1:</strong> ~59% accuracy (baseline using 50+ columns)</li>
+      <li><strong>Model 2:</strong> ~62% accuracy (using difference columns for home vs away)</li>
+      <li><strong>Model 3:</strong> Selected 7 key features → ~65.4% accuracy</li>
+    </ul>
+    <p class="text-gray-700 dark:text-gray-300 mt-2">
+      Final model parameters were optimized using <code>GridSearchCV</code>, yielding a CV ROC AUC of 0.67 and test accuracy of 65.5%.
+    </p>
+  </div>
+
+  
+
+  <!-- github button -->
+<a href="https://github.com/lance-kluge/NFLGameML" target="_blank"
+   class="fixed bottom-8 right-8 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 
+          text-white text-lg font-bold rounded-full shadow-lg hover:shadow-xl 
+          transition-all z-50">
+  View on GitHub
+</a>
+
+</section>
+
+
+
+
+    <!-- Footer Component -->
+    <Footer />
+  </body>
+</html>
