@@ -1,0 +1,155 @@
+---
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import "../../styles/global.css";
+---
+
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NFL Game Predictive Model</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <!-- Header Component -->
+    <Header />
+
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center">
+      <div class="max-w-4xl mx-auto px-6">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">
+          Powder Junkie
+        </h1>
+        <p class="text-lg sm:text-xl text-blue-100">
+          A ski resort review web application designed to provide users with comprehensive, real-time insights on mountain conditions and terrain quality.
+        </p>
+      </div>
+    </section>
+
+    <!--rest of content section -->
+   <section class="py-16 max-w-5xl mx-auto space-y-12">
+
+  <!--overview section -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-10 text-center space-y-4">
+    <h2 class="text-2xl font-bold mb-2">Overview</h2>
+    <p class="text-gray-700 dark:text-gray-300">
+      Powder Junkie is a ski resort review app that provides real-time, crowd-sourced updates on mountain conditions and terrain quality.  It is for skiers and snowboarders who want to explore new mountains, to find the best resort to visit each day, and to share their experiences and opinions with the world. 
+      Unlike traditional review platforms with static information, Powder Junkie ensures users make informed decisions on the go and get the most out of the ski season. 
+      It is also able to serve as your own mountain tracker so that you can look back at your own thoughts and ratings for each mountain that you visit. That can enable you to better keep track of your thoughts on different mountains.
+    </p>
+    
+  </div>
+
+  <!--video demo -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-10 text-center space-y-4">
+    <h2 class="text-2xl font-bold mb-2">Video Demo</h2>
+    <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow-lg">
+        <iframe src="https://drive.google.com/file/d/15QYEUHMiGYmWTFqgYYtOtLVVc7hkVREx/preview" width="940" height="480" allow="autoplay" title="Ski Resort Review App Demo" style="z-index:0;"></iframe>
+    </div>
+  </div>
+
+  <!-- my  contributions -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-10 text-center space-y-4">
+        <h2 class="text-2xl font-bold mb-2">My Contributions</h2>
+        <p class="text-gray-700 dark:text-gray-300">
+        I developed the individual mountain page and the homepage (excluding the search filter) using Handlebars, HTML, Bootstrap and Node.js.
+        I also implemented the manage reviews page including updating each mountain’s average rating when reviews are created/deleted. 
+        For image storage I implemented Multer to handle uploads and integrated them with the database to ensure proper displaying of images across the app. 
+        I was also the team member integrating the Google Maps API into our app to provide an interactive map on where a mountain is located.
+        </p>
+    </div>
+  
+
+    <section class="py-16 max-w-5xl mx-auto space-y-10 text-center">
+
+
+    <div class="grid md:grid-cols-2 gap-8">
+        
+        <!-- Project Requirements -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center space-y-4">
+        <h3 class="text-2xl font-bold mb-2">Project Requirements</h3>
+        <p class="text-gray-700 dark:text-gray-300">
+            For our Final Project for CSCI 3308 - Software Development we were tasked with creating a full stack application in which there was user management, a database, and a UI. All of this was to be built within Docker Containers utilizing Github and Github Project Board for management.
+        </p>
+        </div>
+
+        <!-- Project Methodology -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center space-y-4">
+        <h3 class="text-2xl font-bold mb-2">Project Methodology</h3>
+        <p class="text-gray-700 dark:text-gray-300">
+            Our team, made up of 5 members, used an Agile methodology over the 4-week project timeline. We had 1-week sprints and utilized Github Project Board for management of user stories.
+        </p>
+        </div>
+
+    </div>
+
+    </section>
+
+    
+    <section class="py-16 max-w-5xl mx-auto space-y-12 text-center">
+        <h2 class="text-3xl font-bold mb-8">Tools Used</h2>
+
+        <div class="grid md:grid-cols-3 gap-8">
+
+            <!-- Front End -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center space-y-4">
+            <h3 class="text-2xl font-bold mb-2">Front End</h3>
+            <ul class="text-gray-700 dark:text-gray-300 space-y-1">
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>Handlebars</li>
+                <li>Bootstrap</li>
+                <li>Google Maps</li>
+            </ul>
+            </div>
+
+            <!-- Backend -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center space-y-4">
+            <h3 class="text-2xl font-bold mb-2">Backend</h3>
+            <ul class="text-gray-700 dark:text-gray-300 space-y-1">
+                <li>NodeJS</li>
+                <li>PostgreSQL</li>
+                <li>Google Maps API</li>
+                <li>National Weather Service API</li>
+                <li>Multer</li>
+                <li>Express</li>
+                <li>JavaScript</li>
+            </ul>
+            </div>
+
+            <!-- Development Tools -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center space-y-4">
+            <h3 class="text-2xl font-bold mb-2">Development Tools</h3>
+            <ul class="text-gray-700 dark:text-gray-300 space-y-1">
+                <li>Postman</li>
+                <li>Render</li>
+                <li>Docker</li>
+                <li>VSCode</li>
+                <li>Mocha/Chai</li>
+                <li>GitHub</li>
+            </ul>
+            </div>
+
+        </div>
+    </section>
+
+  
+
+  <!-- github button -->
+<a href="https://github.com/lance-kluge/CSCI-3308-Project" target="_blank"
+   class="fixed bottom-8 right-8 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 
+          text-white text-lg font-bold rounded-full shadow-lg hover:shadow-xl 
+          transition-all z-50">
+  View on GitHub
+</a>
+
+</section>
+
+
+
+
+    <!-- Footer Component -->
+    <Footer />
+  </body>
+</html>
