@@ -1,0 +1,113 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lance KLuge's Portfolio</title>
+  </head>
+  <body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+    <Header />
+    <main class="max-w-5xl mx-auto px-4">
+      <!--profile section-->
+      <section class="py-24 text-center">
+        <img src="/profile.jpg" alt="Profile" class="w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 mx-auto rounded-full shadow-lg"/>
+        <h2 class="text-4xl font-bold mt-6">Hi, I'm Lance Kluge</h2>
+        <p class="mt-4 text-lg text-gray-600">
+          I'm a Computer Science major at the University of Colorado - Boulder
+        </p>
+		<body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+  
+	</body>
+      </section>
+		<section id="about" class="py-16 bg-gray-50 dark:bg-gray-900">
+			<div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 sm:p-12 text-gray-900 dark:text-gray-100">
+				<h3 class="text-3xl font-bold mb-6 text-center">About Me</h3>
+				<p class="text-lg leading-relaxed space-y-4">
+					Lance is a third-year student at the University of Colorado Boulder, graduating in May 2027. His coursework has included Algorithms, Software Development, Computer Systems, Probability, and Statistics, all completed while earning the Dean’s List every semester. <br><br>
+
+					During his coursework, he led a software development project utilizing Agile methodology and tools like HTML/CSS, GitHub, Docker, JavaScript, and PostgreSQL. Other personal project highlights include an ML model to predict the outcome of NFL games with about 65% accuracy using tools like Pandas and XGBoost in Python.<br><br>
+
+					He has also gained experience as a valet attendant and a server at a catering company, where he developed strong communication, adaptability, and leadership skills. Outside of work and school, Lance has enjoyed playing team sports his whole life, such as football, soccer, and volleyball, which taught him that winning together is built on collective contributions, where each role plays a crucial part.<br><br>
+
+					With a background including academic excellence, project experience, and strong teamwork skills, Lance is seeking an internship opportunity for Summer 2026 where he can work on projects related to sports. He plans to join an environment where he can continue learning and developing new skills while contributing meaningfully in the field of software development and/or machine learning.
+				</p>
+			</div>
+		</section>
+
+
+      <!--project section-->
+      <section id="projects" class="py-16">
+        <h3 class="text-2xl font-bold mb-4">Projects</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-4 border rounded-lg shadow">
+            <h4 class="font-bold">Project One</h4>
+            <p class="text-sm text-gray-600">A short description of your project.</p>
+            <a href="#" class="text-teal-600 underline">View on GitHub</a>
+          </div>
+          <div class="p-4 border rounded-lg shadow">
+            <h4 class="font-bold">Project Two</h4>
+            <p class="text-sm text-gray-600">Another project description here.</p>
+            <a href="#" class="text-teal-600 underline">View on GitHub</a>
+          </div>
+        </div>
+      </section>
+
+		<!--connect section-->
+		<section id="connect" class="py-16 bg-gray-50 dark:bg-gray-900">
+			<h3 class="text-3xl font-bold mb-10 text-center text-gray-900 dark:text-gray-100">Connect</h3>
+
+			<div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+				<!--email card-->
+				<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 flex flex-col items-center text-center hover:shadow-xl transition-shadow">
+					<span class="text-teal-500 mb-4 w-20 h-20">
+						<svg fill="currentColor" viewBox="0 0 24 24" class="w-full h-full">
+							<path d="M2.01 6.992l10 6 10-6V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6.992z"/><path d="M22 6H2l10 6 10-6z"/>
+						</svg>
+					</span>
+					<h4 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Email</h4>
+					<a href="mailto:lance.kluge@gmail.com" class="text-teal-600 underline text-lg break-normal">
+						lance.kluge@gmail.com
+					</a>
+				</div>
+
+				<!--github card-->
+				<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 flex flex-col items-center text-center hover:shadow-xl transition-shadow">
+					<div class="flex justify-center items-center mb-4 w-20 h-20 text-teal-500">
+						<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0,0,256,256">
+							<g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(4,4)"><path d="M32,6c-14.359,0 -26,11.641 -26,26c0,12.277 8.512,22.56 19.955,25.286c-0.592,-0.141 -1.179,-0.299 -1.755,-0.479v-5.957c0,0 -0.975,0.325 -2.275,0.325c-3.637,0 -5.148,-3.245 -5.525,-4.875c-0.229,-0.993 -0.827,-1.934 -1.469,-2.509c-0.767,-0.684 -1.126,-0.686 -1.131,-0.92c-0.01,-0.491 0.658,-0.471 0.975,-0.471c1.625,0 2.857,1.729 3.429,2.623c1.417,2.207 2.938,2.577 3.721,2.577c0.975,0 1.817,-0.146 2.397,-0.426c0.268,-1.888 1.108,-3.57 2.478,-4.774c-6.097,-1.219 -10.4,-4.716 -10.4,-10.4c0,-2.928 1.175,-5.619 3.133,-7.792c-0.2,-0.567 -0.533,-1.714 -0.533,-3.583c0,-1.235 0.086,-2.751 0.65,-4.225c0,0 3.708,0.026 7.205,3.338c1.614,-0.47 3.341,-0.738 5.145,-0.738c1.804,0 3.531,0.268 5.145,0.738c3.497,-3.312 7.205,-3.338 7.205,-3.338c0.567,1.474 0.65,2.99 0.65,4.225c0,2.015 -0.268,3.19 -0.432,3.697c1.898,2.153 3.032,4.802 3.032,7.678c0,5.684 -4.303,9.181 -10.4,10.4c1.628,1.43 2.6,3.513 2.6,5.85v8.557c-0.576,0.181 -1.162,0.338 -1.755,0.479c11.443,-2.726 19.955,-13.009 19.955,-25.286c0,-14.359 -11.641,-26 -26,-26zM33.813,57.93c-0.599,0.042 -1.203,0.07 -1.813,0.07c0.61,0 1.213,-0.029 1.813,-0.07zM37.786,57.346c-1.164,0.265 -2.357,0.451 -3.575,0.554c1.218,-0.103 2.411,-0.29 3.575,-0.554zM32,58c-0.61,0 -1.214,-0.028 -1.813,-0.07c0.6,0.041 1.203,0.07 1.813,0.07zM29.788,57.9c-1.217,-0.103 -2.411,-0.289 -3.574,-0.554c1.164,0.264 2.357,0.451 3.574,0.554z"></path></g></g>
+						</svg>
+
+					</div>
+					<h4 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">GitHub</h4>
+					<a href="https://github.com/lance-kluge" target="_blank" rel="noopener noreferrer" class="text-teal-600 underline text-lg truncate max-w-xs">
+						github.com/lance-kluge
+					</a>
+				</div>
+
+				<!--Linkedin card-->
+				
+				<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 flex flex-col items-center text-center hover:shadow-xl transition-shadow">
+					<div class="flex justify-center items-center mb-4 w-20 h-20 text-teal-500">
+					<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
+							<path fill="#0288D1" d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5V37z"></path><path fill="#FFF" d="M12 19H17V36H12zM14.485 17h-.028C12.965 17 12 15.888 12 14.499 12 13.08 12.995 12 14.514 12c1.521 0 2.458 1.08 2.486 2.499C17 15.887 16.035 17 14.485 17zM36 36h-5v-9.099c0-2.198-1.225-3.698-3.192-3.698-1.501 0-2.313 1.012-2.707 1.99C24.957 25.543 25 26.511 25 27v9h-5V19h5v2.616C25.721 20.5 26.85 19 29.738 19c3.578 0 6.261 2.25 6.261 7.274L36 36 36 36z"></path>
+					</svg>
+					</div>
+					<h4 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">LinkedIn</h4>
+					<a href="https://www.www.com/in/your-linkedin" target="_blank" rel="noopener noreferrer" class="text-teal-600 underline text-lg truncate max-w-xs">
+									www.linkedin.com/in/lance-kluge
+					</a>
+				</div>
+
+			</div>
+		</section>
+
+    </main>
+
+    <Footer/>
+  </body>
+</html>
