@@ -3,12 +3,15 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
-// https://astro.build/config
-export default defineConfig({
-  site: 'https://lance-kluge.github.io',
-   base: '/personal_Portfolio',
-  vite: {
-    plugins: [tailwindcss()]
-  }
-});
 
+export default defineConfig({
+  build: {
+    assetsPrefix: './',
+  },
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  site: "https://lance-kluge.github.io",
+  trailingSlash: "never",
+  base: "personal_Portfolio",
+});
