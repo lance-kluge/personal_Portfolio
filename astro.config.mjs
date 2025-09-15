@@ -13,5 +13,5 @@ export default defineConfig({
   },
   site: "https://lance-kluge.github.io",
   trailingSlash: "never",
-  base: "/personal_Portfolio",
+  base: "/personal_Portfolio/",
 });
