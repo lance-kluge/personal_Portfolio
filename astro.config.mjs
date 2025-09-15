@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   build: {
-    assetsPrefix: './',
+    //assetsPrefix: './',
   },
   vite: {
     plugins: [tailwindcss()],
