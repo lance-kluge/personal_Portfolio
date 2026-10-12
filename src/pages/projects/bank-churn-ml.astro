@@ -1,0 +1,218 @@
+---
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/global.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const metrics = [
+  { name: 'Accuracy', baseline: '72.37%', selected: '73.58%' },
+  { name: 'Precision', baseline: '74.58%', selected: '77.86%' },
+  { name: 'Recall', baseline: '63.23%', selected: '61.81%' },
+  { name: 'F1 score', baseline: '0.6844', selected: '0.6891' },
+  { name: 'ROC-AUC', baseline: '0.7798', selected: '0.7903' },
+];
+---
+
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Can a bank prioritize outreach to likely term-deposit subscribers? A random forest case study connecting customer data, feature engineering, and campaign decisions." />
+    <title>Bank Deposit Subscription Prediction</title>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <a href="#report" class="skip-link">Skip to project report</a>
+    <Header />
+
+    <section class="hero bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <div class="max-w-4xl mx-auto px-6">
+        <a href={`${base}/#projects`} class="back-link">← All projects</a>
+        <p class="eyebrow">Python · Pandas · scikit-learn</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold">Bank Deposit Subscription Prediction</h1>
+
+        <dl class="headline-stats">
+          <div><dt>Customer records</dt><dd>11,162</dd></div>
+          <div><dt>Original input features</dt><dd>16</dd></div>
+          <div><dt>Test accuracy</dt><dd>73.58%</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <main id="report" class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+      <nav aria-label="Report sections" class="report-nav">
+        <a href="#dataset">01 · Dataset &amp; features</a>
+        <a href="#exploration">02 · Exploration &amp; split</a>
+        <a href="#model">03 · Model &amp; results</a>
+      </nav>
+
+      <article aria-label="Bank Deposit Subscription Prediction project report">
+        <section id="dataset" class="report-section bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+          <p class="eyebrow section-number">01 / Understanding the data</p>
+          <h2>The story: who should the bank call next?</h2>
+          <p>Imagine a bank preparing its next campaign for a term deposit, a fixed-period savings product similar to a CD. Its outreach team has limited time, and each call takes effort whether or not the customer subscribes. The bank has records from past campaigns. Could those records help the team decide which customers to contact first?</p>
+          <p>I explored that question by predicting <strong>whether a customer will subscribe</strong>. The target, <code>deposit</code>, records the actual campaign outcome: “yes” means subscribed and “no” means did not subscribe. </p>
+          <h3>Dataset and motivation</h3>
+          <p>I used <code>bank.csv</code> from the <a href="https://www.kaggle.com/datasets/janiobachmann/bank-marketing-dataset/data" target="_blank" rel="noopener noreferrer">Kaggle Bank Marketing Dataset</a>, with original research credited to Moro, Cortez, and Rita (2014). It contains 11,162 customer records and 17 original columns: demographics, balances, loan status, and marketing contact history, plus the <code>deposit</code> target which I encoded “yes” as <code>True</code> and “no” as <code>False</code>.</p>
+          <p>What interests me is the connection between a technical prediction and a practical decision. If the model can indentify a promising group of customers, it can help make the outreaches more efficient for the bank which can make more money from the subscriptions.</p>
+
+          <h3>Class balance</h3>
+          <p>There are <strong>5,873 non-subscribers (52.62%)</strong> and <strong>5,289 subscribers (47.38%)</strong>. </p>
+
+          <h3>Feature histograms and outliers</h3>
+          <p>Histograms show long right tails in balance and contact counts. Balances range from −6,847 to 81,204, while campaign contacts range from 1 to 63. I reviewed the outlying records and decided not to drop any entries. All of these values are possible, with things like debt, high balance and more all very real. </p>
+          <figure>
+            <a href={`${base}/bank-churn-ml/numeric-histograms.png`} target="_blank" rel="noopener noreferrer" aria-label="Open numeric feature histograms at full size">
+              <img src={`${base}/bank-churn-ml/numeric-histograms.png`} width="1490" height="1082" alt="Histograms showing customer age, balance, day, call duration, campaign contacts, days since prior contact, and previous contacts. Balance and contact counts have long right tails." loading="lazy" />
+            </a>
+          </figure>
+
+          <h3>Missing values and contact history</h3>
+          <p>I checked for missing values and found no empty cells requiring numeric imputation. For 8,324 records, <code>pdays = -1</code> means no previous contact. I added a <code>previously_contacted</code> flag to capture that distinction and replaced the sentinel with zero in the model inputs.</p>
+          <aside class="callout"><strong>Keeping the scenario realistic:</strong> the team must choose whom to call before knowing how long the conversation will last which meant I removed the <code>duration</code> feature from the X data frame.</aside>
+        </section>
+
+        <section id="exploration" class="report-section bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+          <p class="eyebrow section-number">02 / Preparing the inputs</p>
+          <h2>Encoding, correlations, and clusters</h2>
+          <h3>One-hot encoding and correlated columns</h3>
+          <p>I one-hot encoded the text fields, creating a binary indicator for each category. I also checked correlations, excluding the target, and identified four pairs with correlation of at least 0.90: the yes/no indicators for default, housing, and loan (−1.0000), and <code>previously_contacted</code> with <code>poutcome_unknown</code> (−0.9995).</p>
+          <p>I removed <code>default_no</code>, <code>housing_no</code>, <code>loan_no</code>, and <code>poutcome_unknown</code>, leaving <strong>47 features</strong> and no remaining pairs showing significant correlation. </p>
+
+          <h3>Checking for clusters without y</h3>
+          <p>I used a pair plot to look for clusters in our datasets of subscribed vs not to the bank deposits.
+          </p>
+          <figure class="pairplot">
+            <a href={`${base}/bank-churn-ml/feature-pairplot.png`} target="_blank" rel="noopener noreferrer" aria-label="Open feature-only pair plot at full size">
+              <img src={`${base}/bank-churn-ml/feature-pairplot.png`} width="1358" height="1406" alt="Feature-only pair plot of six numeric inputs for all 11,162 customers. Points overlap broadly, with bands in discrete counts and a large group with no prior contact; there are no clearly separated clusters at these scales." loading="lazy" />
+            </a>
+          </figure>
+          <p>No clearly separated clusters are visible at these scales. </p>
+
+          <h3>Train/test split and scaling</h3>
+          <p>I used an <strong>80/20 split</strong> with <code>random_state=42</code>. I also fitted min-max scaling only on training data for the six numeric measurements, leaving binary indicators at 0/1. </p>
+
+        </section>
+
+        <section id="model" class="report-section bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+          <p class="eyebrow section-number">03 / Learning and evaluation</p>
+          <h2>Training and testing the classifier</h2>
+          <h3>Algorithm choice and training</h3>
+          <p>Because the target is a yes/no outcome, this is a <strong>classification</strong> problem. A random forest combines decision trees to capture relationships and feature interactions. I trained the initial model with 300 trees on the around 9,000 training records and 47 features, using <code>random_state=42</code>. It achieved 100% training accuracy but 72.37% test accuracy which indicates overfitting.</p>
+          <p>I then used a five-fold CV on training data, obtaining mean accuracy of 73.03%. I then compared four settings: unlimited versus 12-level tree depth and minimum leaf sizes of 1 versus 5. I selected the setting with the highest mean validation ROC-AUC.</p>
+          <p>The selected model keeps 300 trees and unlimited depth but requires <strong>at least five samples per leaf</strong> in an attempt to reduce overfitting. Training accuracy drops to 81.16%, while selected mean validation ROC-AUC rises to 0.7901.</p>
+
+          <h3>Test measurements</h3>
+          <p>I tested both models on the same ~2,200 held-out records</p>
+          <div class="table-wrap">
+            <table class="metrics-table">
+              <caption>Held-out test performance</caption>
+              <thead><tr><th scope="col">Metric</th><th scope="col">Baseline forest</th><th scope="col">Selected forest</th></tr></thead>
+              <tbody>{metrics.map((metric) => <tr><th scope="row">{metric.name}</th><td>{metric.baseline}</td><td>{metric.selected}</td></tr>)}</tbody>
+            </table>
+          </div>
+
+          <figure class="confusion-figure">
+            <div class="table-wrap">
+              <table class="confusion-matrix">
+                <caption>Selected model confusion matrix · ~2,200 test records</caption>
+                <thead><tr><td></td><th scope="col">Predicted no</th><th scope="col">Predicted yes</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Actual no</th><td class="correct"><strong>989</strong><span>True negatives</span></td><td><strong>186</strong><span>False positives</span></td></tr>
+                  <tr><th scope="row">Actual yes</th><td><strong>404</strong><span>False negatives</span></td><td class="correct"><strong>654</strong><span>True positives</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+
+          <h3>What this could mean for the outreach team</h3>
+          <p>In a hypothetical priority-list workflow, the selected model would flag <strong>840 of the 2,233 test records (37.6%)</strong> for outreach first. Of those, 654 actually subscribed: an observed subscription rate of <strong>77.9%</strong>, compared with 47.4% across the entire test set. That concentration of subscribers is the practical reason to investigate the model.</p>
+          <p>The tradeoff is the missing the 404 subscribers outside that priority list. We have better accuracy, but if we still need overall volume we need a larger number of possible customers to be able to reach out to.</p>
+
+          <h3>What I learned</h3>
+          <p>The data is a great example of why we need preprocessing in context. Removing call duration makes evaluation exactly how it would be in a real-world scenario.</p>
+          <p>The selected forest reaches <strong>73.58% test accuracy and 0.7903 ROC-AUC</strong>, improving substantially on the roughly 52.6% majority baseline. Tuning slightly improves the accuracy and precision, but more than a third of subscribers are still missed. If I were to be deploying this model in some capacity, I would want to talk with the bank outreach team and see how much it really costs them to reach out to people and if they prioritize efficiency or just brute force raw subscriber acquisition. This would lead me to tune the model towards fewer false negatives or false positives. Another thing I would love to continue with on this project is using a gradient boosted model like XGBoost. I wonder how it would perform compared to the random forest we are currently using.</p>
+
+          <div class="source-links">
+            <a href="https://github.com/lance-kluge/bankChurnML" target="_blank" rel="noopener noreferrer" class="source-button bg-gradient-to-r from-blue-600 to-purple-600">View project code on GitHub ↗</a>
+          </div>
+        </section>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .skip-link { position: fixed; top: -5rem; left: 1rem; z-index: 100; padding: .75rem 1rem; background: white; color: #111827; border-radius: .5rem; }
+  .skip-link:focus { top: 1rem; }
+  .hero { padding: 3rem 0; }
+  .back-link { display: inline-block; margin-bottom: 2rem; color: #dbeafe; }
+  .eyebrow { font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .75rem; }
+  .hero-description { margin-top: 1rem; max-width: 42rem; font-size: 1.25rem; line-height: 1.6; color: #eff6ff; }
+  .headline-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #ffffff40; }
+  .headline-stats dt { font-size: .875rem; color: #dbeafe; }
+  .headline-stats dd { font-size: 1.75rem; font-weight: 800; margin-top: .25rem; }
+  .report-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem 1.5rem; margin-bottom: 2rem; font-size: .875rem; }
+  .report-nav a { font-weight: 600; color: #2563eb; }
+  .report-section { padding: clamp(1.25rem, 4vw, 3rem); margin-bottom: 2.5rem; scroll-margin-top: 7rem; }
+  .section-number { color: #2563eb; }
+  h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; line-height: 1.3; margin-bottom: 1.25rem; }
+  h3 { font-size: 1.125rem; font-weight: 700; margin-top: 1.75rem; margin-bottom: .65rem; }
+  .report-section p, .callout { line-height: 1.8; margin-bottom: .9rem; }
+  .report-section a:not(.source-button) { color: #2563eb; text-decoration: underline; text-underline-offset: 3px; }
+  code { font-size: .875em; overflow-wrap: anywhere; }
+  figure { margin: 1.5rem 0; }
+  figure img { display: block; width: 100%; height: auto; border-radius: .5rem; background: white; }
+  figure a { display: block; }
+  figcaption { margin-top: .75rem; font-size: .8125rem; line-height: 1.6; color: #4b5563; }
+  .pairplot { max-width: 42rem; margin-inline: auto; }
+  .callout { padding: 1rem 1.25rem; border-left: 4px solid #2563eb; background: #eff6ff; color: #1e3a8a; border-radius: 0 .5rem .5rem 0; margin-top: 1.25rem; }
+  .report-section .method-note { font-size: .875rem; color: #4b5563; }
+  .table-wrap { overflow-x: auto; margin-top: 1.25rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+  caption { text-align: left; font-weight: 700; padding-bottom: .75rem; }
+  th, td { text-align: left; padding: .8rem 1rem; border-bottom: 1px solid #d1d5db; }
+  thead { background: #eff6ff; color: #1e3a8a; }
+  .metrics-table td:last-child { font-weight: 700; }
+  .confusion-matrix { table-layout: fixed; }
+  .confusion-matrix th, .confusion-matrix td { text-align: center; padding: 1rem .5rem; }
+  .confusion-matrix tbody td { background: #f3f4f6; color: #1f2937; border: 3px solid white; }
+  .confusion-matrix td.correct { background: #dbeafe; color: #1e3a8a; }
+  .confusion-matrix td strong { display: block; font-size: 1.75rem; }
+  .confusion-matrix td span { display: block; font-size: .75rem; }
+  .source-links { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #d1d5db; }
+  .source-button { display: inline-block; padding: .8rem 1.25rem; border-radius: .5rem; color: white; font-weight: 700; }
+  .source-links p { margin-top: 1rem; font-size: .8125rem; }
+  a:focus-visible { outline: 3px solid #0891b2; outline-offset: 5px; }
+  @media (prefers-color-scheme: dark) {
+    .section-number, .report-nav a, .report-section a:not(.source-button) { color: #93c5fd; }
+    figcaption, .report-section .method-note { color: #d1d5db; }
+    .callout { background: #172554; color: #dbeafe; }
+  }
+  @media (max-width: 540px) {
+    :global(header nav) { flex-wrap: wrap; justify-content: center; gap: 1.25rem; }
+    :global(header nav ul) { gap: 1rem; font-size: .875rem; }
+    .headline-stats dt { font-size: .75rem; }
+    .headline-stats dd { font-size: 1.4rem; }
+    .report-section { scroll-margin-top: 10rem; }
+    th, td { padding: .65rem .5rem; font-size: .8125rem; }
+    .confusion-matrix td strong { font-size: 1.4rem; }
+  }
+  @media print {
+    :global(header), :global(footer), .report-nav, .back-link, .skip-link, .source-button { display: none; }
+    :global(body) { background: white !important; color: black !important; }
+    .hero { background: white; color: black; padding: 0 0 1rem; }
+    .hero-description { color: #374151; }
+    .hero-description { font-size: 1rem; }
+    .headline-stats { display: none; }
+    main { max-width: none; padding: 0; }
+    .report-section { background: white !important; box-shadow: none; padding: 0; margin-bottom: 1.5rem; }
+    h2, h3, caption { break-after: avoid; }
+    figure, table, .callout { break-inside: avoid; }
+    .pairplot { max-width: 28rem; }
+    .report-section p { font-size: 10pt; line-height: 1.5; }
+    figure img { max-height: 90mm; object-fit: contain; }
+    .section-number, figcaption, .report-section .method-note { color: #374151; }
+    .source-links { margin-top: 1rem; }
+  }
+</style>
