@@ -1,0 +1,139 @@
+---
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/global.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Euchre Online: a Java card game built around object-oriented design principles and design patterns, with a local web interface, configurable players, score-aware AI strategies, and JUnit tests." />
+    <title>Euchre Online | Lance Kluge</title>
+  </head>
+
+  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <Header />
+
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center">
+      <div class="max-w-4xl mx-auto px-6">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">Euchre Online</h1>
+        <p class="text-lg sm:text-xl text-blue-100">
+          A Java card game built around object-oriented design principles and design patterns, with configurable players and AI strategies that respond to the score.
+        </p>
+      </div>
+    </section>
+
+    <main class="py-16 max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
+      <section class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-10 text-center space-y-4">
+        <h2 class="text-2xl font-bold mb-2">Overview</h2>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          Euchre Online grew out of my enjoyment of the card game and the challenge of bringing it to life in Java. Euchre is a four-player card game played in teams of two, where players choose trump and compete to win tricks. The game models cards, players, bidding, and scoring, with both a command-line interface and a locally hosted web interface.
+        </p>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          The project applies object-oriented design patterns to a game I enjoy. Human players and different types of AI share the same game engine, while configurable setup lets players and rules change without rewriting the game logic.
+        </p>
+      </section>
+
+      <section aria-label="Game features" class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 text-center space-y-4">
+          <h2 class="text-2xl font-bold mb-2">Game Rules</h2>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+            The engine handles trump selection, following suit, trick winners, team scoring, and going alone. It accounts for Euchre's left and right bowers: the two jacks that become the highest-ranking trump cards, including the change in effective suit for the left bower.
+          </p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 text-center space-y-4">
+          <h2 class="text-2xl font-bold mb-2">Playable Interfaces</h2>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+            Players can make decisions through the CLI or a browser. The local Java HTTP server serves the web interface and exposes game snapshots and player actions through an API. The default web game places one human player alongside three strategy-based AI players.
+          </p>
+        </div>
+      </section>
+
+      <section class="space-y-8">
+        <h2 class="text-3xl font-bold text-center">Design Patterns</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 text-center space-y-4">
+            <h3 class="text-2xl font-bold">Strategy</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              Aggressive, neutral, and conservative strategies implement a shared interface. The AI can switch its bidding behavior as the score changes while the game controller continues to interact with the same player.
+            </p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 text-center space-y-4">
+            <h3 class="text-2xl font-bold">Builder</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              The game builder separates configuration from gameplay. It assigns player types to seats, applies rule options, and checks that every seat is configured before creating a game.
+            </p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 text-center space-y-4">
+            <h3 class="text-2xl font-bold">Template Method</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              The shared player class defines the sequence for playing a card and removing it from the hand. Each player implementation supplies its own card-selection behavior, allowing human and AI players to use the same flow.
+            </p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 text-center space-y-4">
+            <h3 class="text-2xl font-bold">Simple Factory</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              A strategy factory creates the requested AI strategy in one place. The player can request a different strategy without handling the construction details itself.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-10 text-center space-y-4">
+        <h2 class="text-2xl font-bold mb-2">Testing</h2>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          We used JUnit 5 to test card ranking, deck behavior, legal moves, bidding strategies, player decisions, and game setup. Parameterized strategy tests compare how the different AI strategies respond to the same hands, while configuration tests check cases such as missing seats and invalid player lookups.
+        </p>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          Testing specific game situations helped us turn subtle rules and strategy choices into repeatable checks, rather than relying only on playing through a game by hand.
+        </p>
+      </section>
+
+      <section class="space-y-8 text-center">
+        <h2 class="text-3xl font-bold">Tools Used</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 space-y-4">
+            <h3 class="text-2xl font-bold">Game &amp; Backend</h3>
+            <ul class="text-gray-700 dark:text-gray-300 space-y-1">
+              <li>Java</li>
+              <li>Java HTTP Server</li>
+              <li>JSON Game API</li>
+            </ul>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 space-y-4">
+            <h3 class="text-2xl font-bold">Web Interface</h3>
+            <ul class="text-gray-700 dark:text-gray-300 space-y-1">
+              <li>JavaScript</li>
+              <li>HTML</li>
+              <li>CSS</li>
+            </ul>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 space-y-4">
+            <h3 class="text-2xl font-bold">Development</h3>
+            <ul class="text-gray-700 dark:text-gray-300 space-y-1">
+              <li>JUnit 5</li>
+              <li>Gradle</li>
+              <li>Git &amp; GitHub</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="text-center">
+        <a href={`${base}/#projects`} class="text-teal-600 dark:text-teal-400 underline underline-offset-4 hover:text-teal-700 dark:hover:text-teal-300">
+          Back to all projects
+        </a>
+      </div>
+    </main>
+
+    <a href="https://github.com/effdotsh/euchre-online" target="_blank" rel="noopener noreferrer"
+       class="fixed bottom-8 right-8 px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all z-50">
+      View on GitHub
+    </a>
+
+    <Footer />
+  </body>
+</html>
