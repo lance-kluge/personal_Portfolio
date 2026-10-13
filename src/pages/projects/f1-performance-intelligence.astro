@@ -1,0 +1,154 @@
+---
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/global.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const screenshots = [
+  {
+    file: 'overview.jpg',
+    title: 'Application Overview',
+    alt: 'F1 Performance Intelligence home screen with the headline See where the lap was won and an illustrative lap comparison preview.',
+    caption: 'The landing page introduces the analysis workflow with an illustrative comparison preview.',
+    width: 1440,
+    height: 1000,
+  },
+  {
+    file: 'lap-telemetry.jpg',
+    title: 'Lap Telemetry',
+    alt: 'Live time delta chart comparing George Russell and Kimi Antonelli around the 2026 Australian Grand Prix circuit.',
+    caption: 'The cumulative lap-time gap between Russell and Antonelli, aligned by progress around the circuit.',
+    width: 1312,
+    height: 550,
+  },
+  {
+    file: 'tire-degradation.jpg',
+    title: 'Tire Degradation',
+    alt: 'Condition-adjusted hard, medium, and soft tire degradation rates with 95 percent confidence intervals for the 2026 Australian Grand Prix.',
+    caption: 'Compound degradation estimates and confidence intervals from the 2026 Australian Grand Prix.',
+    width: 1312,
+    height: 660,
+  },
+  {
+    file: 'strategy-simulator.jpg',
+    title: 'Strategy Simulator',
+    alt: 'F1 strategy simulator comparing early-stop and extended-stint plans with the observed race strategy.',
+    caption: 'Alternative pit plans compared with the observed strategy using paired Monte Carlo simulations.',
+    width: 1312,
+    height: 640,
+  },
+];
+---
+
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="F1 Performance Intelligence: a Python and Streamlit platform for Formula 1 telemetry analysis, tire degradation modeling, and Monte Carlo pit strategy simulation, backed by immutable local data snapshots." />
+    <title>F1 Performance Intelligence | Lance Kluge</title>
+  </head>
+
+  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <Header />
+
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center">
+      <div class="max-w-4xl mx-auto px-6">
+        <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">F1 Performance Intelligence</h1>
+        <p class="text-lg sm:text-xl text-blue-100">
+          Turning Formula 1 session data into lap comparisons, tire degradation estimates, and pit strategy insights.
+        </p>
+      </div>
+    </section>
+
+    <main class="py-16 max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
+      <section class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-10 text-center space-y-4">
+        <h2 class="text-2xl font-bold">Overview</h2>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          F1 Performance Intelligence brings data engineering, statistical modeling, and an interactive interface together in one Python application. It uses FastF1 to retrieve completed sessions, then turns timing, telemetry, weather, and track status data into a consistent foundation for analysis.
+        </p>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          The Streamlit interface provides three workspaces: comparing two drivers' laps, examining how tire performance changes through a stint, and exploring alternative pit stop plans. Each workspace uses shared analytical services, keeping the calculations independent of the interface.
+        </p>
+      </section>
+
+      <section class="space-y-8">
+        <h2 class="text-3xl font-bold text-center">Analysis Workspaces</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 space-y-4">
+            <h3 class="text-2xl font-bold">Lap Analysis</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              Compare fastest accurate laps or select specific lap numbers. Speed, throttle, braking, and live time deltas are aligned by position around the circuit so both drivers are compared at the same place on track.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              Corner entry, apex, exit, and straight sections explain where time is gained or lost. Section deltas reconcile to the overall lap difference, and summaries link findings to the measurements behind them.
+            </p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 space-y-4">
+            <h3 class="text-2xl font-bold">Tire Degradation</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              Extract clean stints from a Race or Sprint and estimate degradation for each supported tire compound. An adjusted regression accounts for driver differences, race progress, and weather; a raw mode exposes the unadjusted trend.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              Results include degradation rates, confidence intervals, prediction bands, and lap exclusion reasons. Validation holds out whole stints to keep laps from the same stint out of both training and validation sets.
+            </p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 space-y-4">
+            <h3 class="text-2xl font-bold">Strategy Simulator</h3>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              Select a driver and decision lap, then compare two pit plans against the observed remaining strategy. The simulator carries the full field forward with calibrated pace, pit loss, tire degradation, and traffic effects.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+              Paired Monte Carlo samples produce finish position and time distributions under the actual race-control timeline or a scenario without safety cars. Fixed random seeds make comparisons reproducible.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-8" aria-labelledby="screenshots-heading">
+        <div class="text-center space-y-3">
+          <h2 id="screenshots-heading" class="text-3xl font-bold">Inside the Application</h2>
+          <p class="text-gray-700 dark:text-gray-300">Screenshots from the running app. Select an image to view it at full size.</p>
+        </div>
+        <div class="grid md:grid-cols-2 auto-rows-fr gap-8">
+          {screenshots.map((screenshot) => (
+            <figure class="flex flex-col h-full min-w-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+              <a href={`${base}/f1-performance-intelligence/${screenshot.file}`} target="_blank" rel="noopener noreferrer"
+                 aria-label={`View ${screenshot.title} screenshot at full size`}
+                 class="relative block aspect-video w-full shrink-0 bg-gray-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500">
+                <img src={`${base}/f1-performance-intelligence/${screenshot.file}`} alt={screenshot.alt}
+                     width={screenshot.width} height={screenshot.height} loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-contain p-4" />
+              </a>
+              <figcaption class="flex-1 p-6 space-y-2">
+                <h3 class="text-xl font-bold">{screenshot.title}</h3>
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{screenshot.caption}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-10 text-center space-y-4">
+        <h2 class="text-2xl font-bold">A Reusable Data Foundation</h2>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          Ingestion normalizes FastF1 data into versioned pandas schemas validated with Pandera. Analytical datasets are stored as immutable Parquet snapshots, while a SQLite catalog tracks session metadata and selects the active snapshot. Repeated analyses reuse local data without fetching the session again.
+        </p>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          New snapshots are validated and staged before publication. The catalog switches to the new run in one transaction, preserving the previously active snapshot if a rebuild fails. Typed contracts separate the data source, storage adapters, application services, analytical engines, and Streamlit views.
+        </p>
+      </section>
+
+      <div class="text-center">
+        <a href={`${base}#projects`} class="text-teal-600 dark:text-teal-400 underline underline-offset-4 hover:text-teal-700 dark:hover:text-teal-300">
+          Back to all projects
+        </a>
+      </div>
+    </main>
+
+    <a href="https://github.com/lance-kluge/F1-Performance-Intelligence" target="_blank" rel="noopener noreferrer"
+       class="fixed bottom-8 right-8 px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all z-50">
+      View on GitHub
+    </a>
+
+    <Footer />
+  </body>
+</html>
